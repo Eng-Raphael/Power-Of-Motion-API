@@ -1,0 +1,2 @@
+# Power Of Motion Api
+> This API is specific for the Power Of Motion project. It is used to manage the data of the project. It is a REST API that uses the HTTP protocol to communicate with the client. It is written in JS and uses the Express framework. The database used is MongoDB.
