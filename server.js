@@ -15,7 +15,7 @@ const xss = require('xss-clean');
 
 
 // start route files
-
+const auth = require('./routes/auth')
 
 //end route files 
 
@@ -60,7 +60,7 @@ app.use(hpp());
 //Enable cors
 
 // start mount routes 
-
+app.use('/pom/auth',auth)
 //end mount routes
 
 app.use(errorHandler)
