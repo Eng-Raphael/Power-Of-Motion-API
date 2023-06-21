@@ -100,4 +100,28 @@ const userValidationRules = [
     .withMessage('Please add your interests'),
 ];
 
-module.exports = userValidationRules;
+const userLoginValidation = [
+  body('email')
+    .notEmpty()
+    .withMessage('email is required')
+    .isEmail()
+    .withMessage('Please add a valid email')
+    .custom(async (value, { req }) => {
+      const existingUser = await User.findOne({ email: value });
+      if (existingUser) {
+        throw new Error('Email already exists');
+      }
+      return true;
+    })
+    .matches(/^[\w.+-]+@(gmail|yahoo|hotmail|icloud|outlook)\.com$/)
+    .withMessage('Please add a valid email with @gmail, @yahoo,@icloud ,@outlook , or @hotmail domain'),
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long')
+    .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
+    .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+];
+
+module.exports = {userValidationRules, userLoginValidation};
