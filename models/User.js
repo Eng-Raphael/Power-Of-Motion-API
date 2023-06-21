@@ -86,7 +86,7 @@ const UserSchema = new mongoose.Schema({
         },
     },
     dob: {
-        type: Date,
+        type: String,
         required: [true, 'Please add a date of birth'],
         validate: {
           validator: function(value) {

@@ -86,34 +86,30 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateDetails = asyncHandler(async (req, res, next) => {
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next(new ErrorResponse(errors.array()[0].msg, 400));
-    }
-
     const fieldsToUpdate = req.body;
-    const userID = req.user._id;
-
-    const user = await User.findById({  userID }).select('+password');
-
-    if(req.body.password){
-        if(user.password != req.body.password){
-            return next(new ErrorResponse('Invalid Password', 401));
-        }
+    const userID = req.user.id;
+  
+    const user = await User.findById({ _id: userID }).select('+password');
+  
+    if (req.body.password) {
+      if (!(await user.matchPassword(req.body.oldPassword))) {
+        return next(new ErrorResponse('Invalid Password', 401));
+      } else {
+        user.password = req.body.password;
+        await user.save();
+        delete fieldsToUpdate.password;
+      }
     }
-    
-
+  
     const userUpdated = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-        new: true,
-        runValidators: true,
+      new: true,
+      runValidators: true,
     });
-
+  
     res.status(200).json({
-        success: true,
-        data: userUpdated,
+      success: true,
+      data: userUpdated,
     });
-
 });
 
 // Get token from model , create cookie and send response 

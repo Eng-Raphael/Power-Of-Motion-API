@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
-const{ userRegisterationValidation, userLoginValidation ,userUpdateValidation } = require('../validation/userValidation')
+const{ userRegisterationValidation, userLoginValidation  } = require('../validation/userValidation')
 const {protect} = require('../middleware/auth');
 const router = express.Router();
 const {
@@ -25,7 +25,7 @@ router
 .get('/logout',protect,logout)
 
 router
-.put('/update',protect,userUpdateValidation,updateDetails)
+.put('/update',protect,updateDetails)
 
 
 module.exports = router;
