@@ -82,7 +82,14 @@ const userRegisterationValidation = [
     .isLength({ min: 11, max: 11 })
     .withMessage('Phone number must be 11 digits long')
     .matches(/^(010|011|015|012)\d{8}$/)
-    .withMessage('Phone number must start with 010, 011, 015, or 012'),
+    .withMessage('Phone number must start with 010, 011, 015, or 012')
+    .custom(async (value, { req }) => {
+      const existingPhone = await User.findOne({ phoneNumber: value });
+      if (existingPhone) {
+        throw new Error('PhoneNumber already exists');
+      }
+      return true;
+    }),
   body('dob')
     .notEmpty()
     .withMessage('dob is required')
