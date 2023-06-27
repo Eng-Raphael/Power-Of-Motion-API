@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const governmentCities = [
     'Cairo',
     'Giza',
@@ -117,11 +118,11 @@ const UserSchema = new mongoose.Schema({
         required:[true,'Please add your interests'],
         enum:['parkour','skate','both']
     },
-    resetTokenString:{
+    forgotPasswordToken:{
         type:String,
         default:null
     },
-    resetTokenDate:{
+    forgotPasswordTokenExpires:{
         type:Date,
         default:null
     }
@@ -146,6 +147,16 @@ UserSchema.methods.getSignedJwtToken = function () {
 // Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
+};
+
+UserSchema.methods.generateForgotPasswordToken = async function(user){
+  const token = crypto.randomBytes(20).toString('hex');
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + parseInt(process.env.RESET_PASSWORD_TOKEN_EXPIRATION)); // Set token expiration to 10 minutes from now
+  user.forgotPasswordToken = token;
+  user.forgotPasswordTokenExpires = expires;
+  await user.save();
+  return token;
 };
 
 module.exports = mongoose.model('User', UserSchema);

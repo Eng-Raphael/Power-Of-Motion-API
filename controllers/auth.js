@@ -144,3 +144,44 @@ const sendTokenResponse = (user , statusCode , res) =>{
         })
 
 }
+
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+
+  const ID = req.params.id;
+  const {phoneNumber , username} = req.body;
+
+  const user = await User.findOne({_id : ID , phoneNumber:phoneNumber , username:username});
+
+  if(!user){
+    res.status(401).json({ success:false ,valid:false} );  
+  }
+
+  const token = await user.generateForgotPasswordToken(user);
+
+  res.status(200).json({ success:true ,valid:true , token:token} );
+
+});
+
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(401).json({ success:false ,valid:false , password:errors.array()[0].msg} );
+  }
+
+  const token = req.params.token;
+
+  const user = await User.findOne({forgotPasswordToken:token , forgotPasswordTokenExpires : {$gt : Date.now()}});
+
+  if(!user){
+    res.status(401).json({ success:false ,valid:false , msg:"Password Reset Failled"} );  
+  }
+
+  user.password = req.body.password;
+  user.forgotPasswordToken = undefined;
+  user.forgotPasswordTokenExpires = undefined;
+  await user.save();
+
+  res.status(200).json({ success: true, valid: true , msg:"Password Reset Successfully" });
+
+}); 

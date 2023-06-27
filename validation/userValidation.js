@@ -124,5 +124,15 @@ const userLoginValidation = [
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
 ];
 
+const userResetPasswordValidation = [
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long')
+    .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
+    .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+];
 
-module.exports = {userRegisterationValidation, userLoginValidation };
+
+module.exports = {userRegisterationValidation, userLoginValidation , userResetPasswordValidation};
