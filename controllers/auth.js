@@ -147,10 +147,9 @@ const sendTokenResponse = (user , statusCode , res) =>{
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
-  const ID = req.params.id;
   const {phoneNumber , username} = req.body;
 
-  const user = await User.findOne({_id : ID , phoneNumber:phoneNumber , username:username});
+  const user = await User.findOne({ phoneNumber:phoneNumber , username:username});
 
   if(!user){
     res.status(401).json({ success:false ,valid:false} );  

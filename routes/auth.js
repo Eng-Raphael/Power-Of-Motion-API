@@ -30,7 +30,7 @@ router
 .put('/update',protect,updateDetails)
 
 router
-.get('/forgotpassword/user/:id',forgotPassword)
+.get('/forgotpassword/user/',forgotPassword)
 
 router
 .post('/resetpassword/:token',userResetPasswordValidation ,resetPassword)
