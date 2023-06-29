@@ -58,6 +58,24 @@ app.use(limiter);
 app.use(hpp());
 
 //Enable cors
+app.use((req, res, next) => {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+    });
+  
+    next();
+});
+  
+// Enable CORS
+const corsOptions = {
+    origin: ['*'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // start mount routes 
 app.use('/pom/auth',auth)
