@@ -75,6 +75,18 @@ const UserSchema = new mongoose.Schema({
           message: 'Password must contain at least one of the following characters: @, _, #, $, or &',
         },
     },
+    profilePic: {
+        type: String,
+        validate: {
+            validator: function(value) {
+                const regex = /\.(png|jfif|jpg|jpeg|pdf|svg|heif|hevc)$/;
+                return regex.test(value);
+            },
+            message: 'Profile picture must have a valid extension: .png, .jfif, .jpg, .jpeg, .pdf, .svg, .heif, .hevc'
+        },
+        required: [true, 'Please add a profile picture'],
+        maxlength: [5 * 1024 * 1024, 'Profile picture must be less than 5MB']
+    },
     phoneNumber: {
         type: String,
         required: [true, 'Please add a phone number'],

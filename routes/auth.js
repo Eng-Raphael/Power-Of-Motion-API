@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
-const{ userRegisterationValidation, userLoginValidation , userResetPasswordValidation } = require('../validation/userValidation')
+const{ userRegisterationValidation, userLoginValidation , userResetPasswordValidation } = require('../validation/userValidation');
+const profileVal = require('../validation/profileValidation');
 const {protect} = require('../middleware/auth');
 const router = express.Router();
 const {
@@ -15,7 +16,7 @@ const {
 
 
 router
-.post('/register',userRegisterationValidation,register)
+.post('/register',profileVal,userRegisterationValidation,register)
 
 router
 .post('/login',userLoginValidation,login)

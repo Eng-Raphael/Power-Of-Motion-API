@@ -45,6 +45,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         username,
         city,
         interests,
+        profilePic:req.file.filename
     });
 
     sendTokenResponse(user , 200 , res)
