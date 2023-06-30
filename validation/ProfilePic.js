@@ -10,8 +10,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const extension = path.extname(file.originalname);
-    const username = req.body.username;
-    cb(null, username + extension);
+    const timestamp = Date.now();
+    cb(null, timestamp + extension);
   }
 });
 

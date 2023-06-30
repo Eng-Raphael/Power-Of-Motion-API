@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/User');
 const validation = require('../Apis/emailPhoneVerification');
-
+const fs = require('fs');
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -108,6 +108,13 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
         await user.save();
         delete fieldsToUpdate.password;
       }
+    }
+
+    if(req.file){
+      if (user.profilePic) {
+        fs.unlinkSync(`./uploads/user/profiles/${user.profilePic}`);
+      }
+      fieldsToUpdate.profilePic = req.file.filename;
     }
   
     const userUpdated = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {

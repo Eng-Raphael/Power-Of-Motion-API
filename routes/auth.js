@@ -28,7 +28,7 @@ router
 .get('/logout',protect,logout)
 
 router
-.put('/update',protect,updateDetails)
+.put('/update',protect,profileVal,updateDetails)
 
 router
 .post('/forgotpassword/user/',forgotPassword)
