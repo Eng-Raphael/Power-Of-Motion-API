@@ -30,11 +30,6 @@ exports.register = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Invalid Email , Free email domains are not allowed , Disposable email domains are not allowed', 400));
     }
 
-    const isValidatePhoneNumber = await validation.validatePhoneNumber(phoneNumber);
-    if (!isValidatePhoneNumber) {
-        return next(new ErrorResponse('Invalid Phone Number , Phone number must be Egyptian , Phone number must be registered with a provider', 400));
-    }
-
     const user = await User.create({
         firstName,
         lastName,

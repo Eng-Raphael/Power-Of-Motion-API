@@ -5,10 +5,10 @@ const validateEmail = async (email) => {
 }
 
 const validatePhoneNumber = async (phoneNumber) => {
-    phoneNumber = '+2' + phoneNumber;
+    phoneNumber = encodeURIComponent('+2' + phoneNumber);
     const response = await fetch(`https://phonevalidation.abstractapi.com/v1/?api_key=${process.env.abstract_api_phone}&phone=${phoneNumber}`);
     const data = await response.json();
     return data.valid && data.country.code === 'EG' && data.country.name === 'Egypt' && data.country.prefix === '+20';
-}
+};
 
 module.exports = {  validateEmail  , validatePhoneNumber} 

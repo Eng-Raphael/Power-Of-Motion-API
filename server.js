@@ -27,6 +27,9 @@ connectDB();
 
 const app = express()
 
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 //parse body
 app.use(express.json())
 

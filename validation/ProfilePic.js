@@ -1,5 +1,7 @@
 const multer = require('multer');
 const path = require('path');
+const { validationResult } = require('express-validator');
+const ErrorResponse = require('../utils/errorResponse');
 
 // Create a storage object with destination and filename options
 const storage = multer.diskStorage({
