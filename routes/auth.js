@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const{ userRegisterationValidation, userLoginValidation , userResetPasswordValidation } = require('../validation/userValidation');
-const profileVal = require('../validation/profileValidation');
+const profileVal = require('../validation/profilePic');
 const {protect} = require('../middleware/auth');
 const router = express.Router();
 const {
