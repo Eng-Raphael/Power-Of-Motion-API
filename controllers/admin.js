@@ -18,7 +18,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         role
     } = req.body;
 
-    if(req.body.developer_admin_secret !== "#$%^&*()_+~`|}{[]\:;?><,./=-0987654321qwertyuiopasdfghjklzxcvbnm"){
+    if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
         return next(new ErrorResponse('Invalid Developer', 400));
     }
 
@@ -62,7 +62,7 @@ exports.getAdmin = asyncHandler(async (req, res, next) => {
     // user is already available in req due to the protect middleware
     const admin = await Admin.findById(req.admin.id)
 
-    if(req.body.developer_admin_secret !== "#$%^&*()_+~`|}{[]\:;?><,./=-0987654321qwertyuiopasdfghjklzxcvbnm"){
+    if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
         return next(new ErrorResponse('Invalid Developer', 400));
     }
   
@@ -117,7 +117,11 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
     const {email , username} = req.body;
-  
+    
+    if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
+        return next(new ErrorResponse('Cannot Update !!', 400));
+    }
+
     const admin = await Admin.findOne({ email:email , username:username});
   
     if(!admin){
@@ -143,6 +147,10 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   
     if(!admin){
       res.status(401).json({ success:false ,valid:false , msg:"Password Reset Failled"} );  
+    }
+
+    if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
+        return next(new ErrorResponse('Cannot Update !!', 400));
     }
   
     admin.password = req.body.password;

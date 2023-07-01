@@ -86,4 +86,4 @@ AdminSchema.methods.generateForgotPasswordToken = async function(admin){
     return token;
 };
 
-const Admin = mongoose.model('Admin', AdminSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

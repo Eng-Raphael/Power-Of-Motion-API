@@ -10,7 +10,7 @@ const router = express.Router();
 const {
     register,
     login,
-    getMe,
+    getAdmin,
     logout,
     updateDetails,
     forgotPassword,
@@ -25,7 +25,7 @@ router
 .post('/login',validateAdminLogin,login)
 
 router
-.post('/me',protect ,getMe)
+.post('/me',protect ,getAdmin)
 
 router
 .get('/logout',protect,logout)
@@ -34,7 +34,7 @@ router
 .put('/update',protect,updateDetails)
 
 router
-.post('/forgotpassword/',forgotPassword)
+.post('/forgotpassword',forgotPassword)
 
 router
 .post('/resetpassword/:token',adminResetPasswordValidation ,resetPassword)
