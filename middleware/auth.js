@@ -3,7 +3,7 @@ const asyncHandler = require('./async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
-
+const Secretary = require('../models/Secretary');
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
   
@@ -33,6 +33,17 @@ exports.protect = asyncHandler(async (req, res, next) => {
       }
 
       req.admin = admin;
+    }else if(decoded.role === 'secretary'){
+      // Get secretary by ID
+      const secretary = await Secretary.findById(decoded.id);
+
+      // Make sure secretary exists
+      if (!secretary) {
+        return next(new ErrorResponse('Not authorized to access this route', 401));
+      }
+
+      req.secretary = secretary;
+
     } else {
       // Get user by ID
       const user = await User.findById(decoded.id);
@@ -60,6 +71,8 @@ exports.authorize = (...roles) => {
       user = req.admin;
     } else if (req.user) {
       user = req.user;
+    }else if(req.secretary){
+      user = req.secretary;
     } else {
       return next(new ErrorResponse('Not authorized to access this route', 401));
     }
