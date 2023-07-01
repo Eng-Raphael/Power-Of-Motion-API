@@ -105,44 +105,41 @@ exports.validateEventCreation =[
     .withMessage('am or pm must be either "am" or "pm".'),
 ];
 
-exports.validateEventUpdate =[
-  body('name')
-    .isLength({ min: 5 })
-    .withMessage('Name must be at least 5 characters long.')
-    .matches(/^[^\s@?$;%^*()+=\[\]{}|\\\/]+$/)
-    .withMessage('Name must not contain symbols such as @, ?, $, ;, %, ^, or spaces.'),
-  body('competition.name')
-    .isIn(['freestyle', 'speedrun'])
-    .withMessage('Competition name must be either "freestyle" or "speedrun".'),
-  body('fault')
-    .isInt({ min: 1, max: 7 })
-    .withMessage('Fault must be between 1 and 7.'),
-  body('location.streetName')
-    .isLength({ max: 30 })
-    .withMessage('Street name must be at most 30 characters long.'),
-  body('location.city')
-    .isIn(governmentCities)
-    .withMessage('City must be one of the government cities.'),
-  body('location.additionalInformation')
-    .optional()
-    .isLength({ max: 50 })
-    .withMessage('Additional information must be at most 50 characters long.'),
-  body('duration.startDate')
-    .isISO8601()
-    .withMessage('Start date must be a valid ISO 8601 date.'),
-  body('duration.endDate')
-    .isISO8601()
-    .withMessage('End date must be a valid ISO 8601 date.'),
-  body('duration.startTime.time')
-    .isISO8601()
-    .withMessage('Start time must be a valid ISO 8601 time.'),
-  body('duration.startTime.amOrPm')
-    .isIn(['am', 'pm'])
-    .withMessage('am or pm must be either "am" or "pm".'),
-  body('duration.endTime.time')
-    .isISO8601()
-    .withMessage('End time must be a valid ISO 8601 time.'),
-  body('duration.endTime.amOrPm')
-    .isIn(['am', 'pm'])
-    .withMessage('am or pm must be either "am" or "pm".'),
-];  
+// exports.validateEventUpdate =[
+//   body('name')
+//     .isLength({ min: 5 })
+//     .withMessage('Name must be at least 5 characters long.')
+//     .matches(/^[^\s@?$;%^*()+=\[\]{}|\\\/]+$/)
+//     .withMessage('Name must not contain symbols such as @, ?, $, ;, %, ^, or spaces.'),
+//   body('fault')
+//     .isInt({ min: 1, max: 7 })
+//     .withMessage('Fault must be between 1 and 7.'),
+//   body('location.streetName')
+//     .isLength({ max: 30 })
+//     .withMessage('Street name must be at most 30 characters long.'),
+//   body('location.city')
+//     .isIn(governmentCities)
+//     .withMessage('City must be one of the government cities.'),
+//   body('location.additionalInformation')
+//     .optional()
+//     .isLength({ max: 50 })
+//     .withMessage('Additional information must be at most 50 characters long.'),
+//   body('duration.startDate')
+//     .isISO8601()
+//     .withMessage('Start date must be a valid ISO 8601 date.'),
+//   body('duration.endDate')
+//     .isISO8601()
+//     .withMessage('End date must be a valid ISO 8601 date.'),
+//   body('duration.startTime.time')
+//     .isISO8601()
+//     .withMessage('Start time must be a valid ISO 8601 time.'),
+//   body('duration.startTime.amOrPm')
+//     .isIn(['am', 'pm'])
+//     .withMessage('am or pm must be either "am" or "pm".'),
+//   body('duration.endTime.time')
+//     .isISO8601()
+//     .withMessage('End time must be a valid ISO 8601 time.'),
+//   body('duration.endTime.amOrPm')
+//     .isIn(['am', 'pm'])
+//     .withMessage('am or pm must be either "am" or "pm".'),
+// ];  

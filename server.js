@@ -20,6 +20,7 @@ const admin = require('./routes/admin')
 const adminuser = require('./routes/adminuser')
 const secretary = require('./routes/secretary')
 const event = require('./routes/event')
+const eventstaff = require('./routes/eventstaff')
 //end route files 
 
 //load env
@@ -89,6 +90,7 @@ app.use('/pom/admin/auth',admin)
 app.use('/pom/administration',adminuser)
 app.use('/pom/secretary/auth',secretary)
 app.use('/pom/Event',event)
+app.use('/pom/EventStaff',eventstaff)
 //end mount routes
 
 app.use(errorHandler)
