@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const AdminSchema = new mongoose.Schema({
     name:{
@@ -30,6 +32,7 @@ const AdminSchema = new mongoose.Schema({
     password:{
         type:String,
         required: [true,'Please add a password'],
+        minlength: [8, 'Password must be at least 8 characters long'],
         maxlength: 15,
         select: false,
         validate: {
@@ -38,6 +41,10 @@ const AdminSchema = new mongoose.Schema({
           },
           message: 'Password must contain at least one of the following characters: @, _, #, $, or &',
         },
+    },
+    role:{
+        type:String,
+        default:'admin',
     },
     forgotPasswordToken:{
         type:String,
@@ -59,7 +66,7 @@ AdminSchema.pre('save', async function (next) {
 
 // Sign JWT and return
 AdminSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({ id: this._id , role:this.role}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
 };
