@@ -3,6 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Admin = require('../models/Admin');
 const User = require('../models/User'); 
+const validation = require('../Apis/emailPhoneVerification');
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -21,6 +22,11 @@ exports.register = asyncHandler(async (req, res, next) => {
 
     if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
         return next(new ErrorResponse('Invalid Developer', 400));
+    }
+
+    const isValidateEmail = await validation.validateEmail(email);
+    if (!isValidateEmail) {
+        return next(new ErrorResponse('Invalid Email , Free email domains are not allowed , Disposable email domains are not allowed', 400));
     }
 
     const admin = await Admin.create({

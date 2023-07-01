@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Secretary = require('../models/Secretary');
+const validation = require('../Apis/emailPhoneVerification');
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -19,6 +20,11 @@ exports.register = asyncHandler(async (req, res, next) => {
         phoneNumber,
         dob,
     } = req.body;
+
+    const isValidateEmail = await validation.validateEmail(email);
+    if (!isValidateEmail) {
+        return next(new ErrorResponse('Invalid Email , Free email domains are not allowed , Disposable email domains are not allowed', 400));
+    }
 
     const secretary = await Secretary.create({
         firstName,
