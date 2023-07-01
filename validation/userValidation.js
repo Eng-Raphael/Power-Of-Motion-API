@@ -107,11 +107,6 @@ const userRegisterationValidation = [
     .withMessage('interests is required')
     .isIn(['parkour', 'skate', 'both'])
     .withMessage('Please add your interests'),
-  body('profilePic')
-    .notEmpty()
-    .withMessage('profilePic is required'),
-  body('role')
-    .isIn(roleValues).withMessage(`Role must be one of ${roleValues}`),
 ];
 
 const userLoginValidation = [

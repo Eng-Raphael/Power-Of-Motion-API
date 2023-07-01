@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Admin = require('../models/Admin');
+const User = require('../models/User'); 
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -161,6 +162,83 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, valid: true , msg:"Password Reset Successfully for admin" });
   
 }); 
+
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  // const users = await User.find();
+  // res.status(200).json({
+  //   success: true,
+  //   data: users,
+  // });
+  res.status(200).json(res.advancedResults);
+});
+
+exports.getUserById = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+exports.deleteUsers = asyncHandler(async (req, res, next) => {
+  await User.deleteMany();
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.deleteUserById = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.suspendUsers = asyncHandler(async (req, res, next) => {
+  await User.updateMany({}, { isSuspended: true });
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.suspendUserById = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, { isSuspended: true }, { new: true });
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+exports.activateUsers = asyncHandler(async (req, res, next) => {
+  await User.updateMany({}, { isSuspended: false });
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.activateUserById = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, { isSuspended: false }, { new: true });
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
 
 const sendTokenResponse = (admin , statusCode , res) =>{
 

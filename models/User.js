@@ -130,6 +130,10 @@ const UserSchema = new mongoose.Schema({
         required:[true,'Please add your interests'],
         enum:['parkour','skate','both']
     },
+    isSuspended:{
+        type:Boolean,
+        default:false
+    },
     forgotPasswordToken:{
         type:String,
         default:null
