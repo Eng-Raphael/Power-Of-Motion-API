@@ -130,6 +130,10 @@ const UserSchema = new mongoose.Schema({
         required:[true,'Please add your interests'],
         enum:['parkour','skate','both']
     },
+    isSuspended:{
+        type:Boolean,
+        default:false
+    },
     forgotPasswordToken:{
         type:String,
         default:null
@@ -150,7 +154,7 @@ UserSchema.pre('save', async function (next) {
 
 // Sign JWT and return
 UserSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({ id: this._id , role:this.role}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
 };

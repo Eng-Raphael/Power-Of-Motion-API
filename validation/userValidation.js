@@ -32,6 +32,8 @@ const governmentCities = [
   'Helwan',
 ];
 
+const roleValues = ['client', 'staff'];
+
 const userRegisterationValidation = [
   body('firstName')
     .notEmpty()

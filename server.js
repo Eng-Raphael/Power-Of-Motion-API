@@ -16,7 +16,8 @@ const xss = require('xss-clean');
 
 // start route files
 const auth = require('./routes/auth')
-
+const admin = require('./routes/admin')
+const adminuser = require('./routes/adminuser')
 //end route files 
 
 //load env
@@ -82,6 +83,8 @@ app.use(cors(corsOptions));
 
 // start mount routes 
 app.use('/pom/auth',auth)
+app.use('/pom/admin/auth',admin)
+app.use('/pom/administration',adminuser)
 //end mount routes
 
 app.use(errorHandler)
