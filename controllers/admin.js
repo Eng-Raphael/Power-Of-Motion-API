@@ -3,6 +3,8 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Admin = require('../models/Admin');
 const User = require('../models/User'); 
+const Secretary = require('../models/Secretary');
+const validation = require('../Apis/emailPhoneVerification');
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -21,6 +23,11 @@ exports.register = asyncHandler(async (req, res, next) => {
 
     if(req.body.developer_admin_secret !== "0987654321qwertyuiopasdfghjklzxcvbnm"){
         return next(new ErrorResponse('Invalid Developer', 400));
+    }
+
+    const isValidateEmail = await validation.validateEmail(email);
+    if (!isValidateEmail) {
+        return next(new ErrorResponse('Invalid Email , Free email domains are not allowed , Disposable email domains are not allowed', 400));
     }
 
     const admin = await Admin.create({
@@ -164,11 +171,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 }); 
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  // const users = await User.find();
-  // res.status(200).json({
-  //   success: true,
-  //   data: users,
-  // });
   res.status(200).json(res.advancedResults);
 });
 
@@ -237,6 +239,81 @@ exports.activateUserById = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: user,
+  });
+});
+
+
+// admin-secretary 
+
+exports.getSecretaries = asyncHandler(async (req, res, next) => {
+  res.status(200).json(res.advancedResults);
+});
+
+exports.getSecretaryById = asyncHandler(async (req, res, next) => {
+  const secretary = await Secretary.findById(req.params.id);
+  if (!secretary) {
+    return next(new ErrorResponse('secretary not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: secretary,
+  });
+});
+
+exports.deleteSecretaries = asyncHandler(async (req, res, next) => {
+  await Secretary.deleteMany();
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.deleteSecretaryById = asyncHandler(async (req, res, next) => {
+  const secretary = await Secretary.findByIdAndDelete(req.params.id);
+  if (!secretary) {
+    return next(new ErrorResponse('secretary not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.suspendSecretaries = asyncHandler(async (req, res, next) => {
+  await Secretary.updateMany({}, { isSuspended: true });
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.suspendSecretaryById = asyncHandler(async (req, res, next) => {
+  const secretary = await Secretary.findByIdAndUpdate(req.params.id, { isSuspended: true }, { new: true });
+  if (!secretary) {
+    return next(new ErrorResponse('secretary not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: secretary,
+  });
+});
+
+exports.activateSecretaries = asyncHandler(async (req, res, next) => {
+  await Secretary.updateMany({}, { isSuspended: false });
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
+exports.activateSecretaryById = asyncHandler(async (req, res, next) => {
+  const secretary = await Secretary.findByIdAndUpdate(req.params.id, { isSuspended: false }, { new: true });
+  if (!secretary) {
+    return next(new ErrorResponse('secretary not found', 404));
+  }
+  res.status(200).json({
+    success: true,
+    data: secretary,
   });
 });
 

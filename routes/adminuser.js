@@ -15,6 +15,10 @@ const {
 }= require('../controllers/admin');
 
 
+const adminSecretaryRouter = require('./adminsecretary');
+
+router.use('', adminSecretaryRouter);
+
 router
 .get('/users',protect,authorize('admin'), advancedResults(User) ,getUsers)
 
