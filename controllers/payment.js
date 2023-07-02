@@ -17,8 +17,8 @@ exports.createPayment = asyncHandler(async function(req, res, next) {
           card: { token: token }
         }
     });
-      
-    const payment = new Payment({
+
+    const payment = await Payment.create({
         ticket: ticketId,
         stripePaymentId: paymentIntent.id,
         amount: amount,
