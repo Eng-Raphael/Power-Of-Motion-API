@@ -125,6 +125,12 @@ const UserSchema = new mongoose.Schema({
         enum:['client','staff'],
         default:'client'
     },
+    announcements: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Announcement',
+      },
+    ],
     interests:{
         type:String,
         required:[true,'Please add your interests'],

@@ -11,7 +11,11 @@ const {
     getAnnouncement,
     updateAnnouncement,
     deleteAnnouncement,
-    deleteAnnouncements
+    deleteAnnouncements,
+    createAnnouncementForUser,
+    getAnnouncementsForUser,
+    updateAnnouncementForUser,
+    deleteAnnouncementForUser,
 } = require('../controllers/announcement');
 const router = express.Router();
 
@@ -26,5 +30,16 @@ router
 .get(protect,authorizeMultiple('admin','secretary'),getAnnouncement)
 .put(protect,authorizeMultiple('admin','secretary'),imageVal,updateAnnouncement)
 .delete(protect,authorizeMultiple('admin','secretary'),deleteAnnouncement);
+
+router
+.route('/announcements/user/:userId')
+.post(protect,authorizeMultiple('admin','secretary'),imageVal,validateAnnouncementCreation,createAnnouncementForUser)
+.get(protect,authorizeMultiple('admin','secretary'),getAnnouncementsForUser)
+
+
+router
+.route('/announcements/user/:userId/announcement/:announcementId')
+.put(protect,authorizeMultiple('admin','secretary'),imageVal,updateAnnouncementForUser)
+.delete(protect,authorizeMultiple('admin','secretary'),deleteAnnouncementForUser)
 
 module.exports = router;
