@@ -89,3 +89,30 @@ exports.authorize = (...roles) => {
     next();
   };
 };
+
+exports.authorizeMultiple = (...roles) => {
+  return (req, res, next) => {
+    let user;
+
+    if (req.admin) {
+      user = req.admin;
+    } else if (req.user) {
+      user = req.user;
+    } else if (req.secretary) {
+      user = req.secretary;
+    } else {
+      return next(new ErrorResponse('Not authorized to access this route', 401));
+    }
+
+    if (!roles.includes(user.role)) {
+      return next(
+        new ErrorResponse(
+          `User role ${user.role} is not authorized to access this route`,
+          403
+        )
+      );
+    }
+
+    next();
+  };
+};

@@ -22,7 +22,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         username,
         city,
         interests,
-
+        role='client'
     } = req.body;
 
     const isValidateEmail = await validation.validateEmail(email);
@@ -40,6 +40,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         username,
         city,
         interests,
+        role,
         profilePic:req.file.filename
     });
 
