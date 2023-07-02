@@ -16,8 +16,10 @@ const {
 
 
 const adminSecretaryRouter = require('./adminsecretary');
+const adminLocationRouter = require('./location');
 
 router.use('', adminSecretaryRouter);
+router.use('', adminLocationRouter);
 
 router
 .get('/users',protect,authorize('admin'), advancedResults(User) ,getUsers)
