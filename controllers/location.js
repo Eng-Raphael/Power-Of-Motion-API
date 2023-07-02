@@ -3,9 +3,9 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Location = require('../models/Location');
 
-exports.getLocations = async (req, res, next) => {
+exports.getLocations = asyncHandler( (req, res, next) => {
     res.status(200).json(res.advancedResults);
-};
+});
 
 exports.getLocation = asyncHandler(async (req, res, next) => {
 
