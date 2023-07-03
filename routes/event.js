@@ -19,8 +19,8 @@ const {
 
 router
 .post('/create',protect,authorizeMultiple('admin','secretary'),validateEventCreation,createEvent)
-.get('/events',protect,authorizeMultiple('admin','secretary'),advancedResults(Event) ,getEvents)
-.get('/event/:id',protect,authorizeMultiple('admin','secretary'),getEvent)
+.get('/events',protect,authorizeMultiple('admin','secretary','client'),advancedResults(Event) ,getEvents)
+.get('/event/:id',protect,authorizeMultiple('admin','secretary','client'),getEvent)
 .put('/event/:id',protect,authorizeMultiple('admin','secretary'),updateEvent)
 .delete('/event/:id',protect,authorize('admin'),deleteEvent)
 .delete('/events',protect,authorize('admin'),delteAllEvents);
