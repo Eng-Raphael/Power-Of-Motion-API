@@ -125,6 +125,10 @@ exports.validateEventCreation =[
     .isInt({ min: 0 , max: 1000000})
     .withMessage('Price must be between 0 and 1000000.'),
 
+  body('description')
+    .notEmpty()
+    .withMessage('Description is required.')
+
 ];
 
 // exports.validateEventUpdate =[
