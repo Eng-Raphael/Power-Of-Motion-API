@@ -120,6 +120,10 @@ const EventSchema = new mongoose.Schema({
         max: [1000000, 'Price must be at most 1000000.'],
         default: 0,
     },
+    description:{
+        type: String,
+        required: [true, 'Description is required.'],
+    },
 },{timestamps:true});
 
 
