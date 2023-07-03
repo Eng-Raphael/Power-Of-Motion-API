@@ -21,20 +21,20 @@ const router = express.Router();
 
 router
 .route('/announcements/general')
-.get(protect,authorizeMultiple('admin','secretary'),advancedResults(Announcement),getAnnouncements)
+.get(protect,authorizeMultiple('admin','secretary','client'),advancedResults(Announcement),getAnnouncements)
 .post(protect,authorizeMultiple('admin','secretary'),imageVal,validateAnnouncementCreation,createAnnouncement)
 .delete(protect,authorizeMultiple('admin','secretary'),deleteAnnouncements);
 
 router
 .route('/announcement/:id/general')
-.get(protect,authorizeMultiple('admin','secretary'),getAnnouncement)
+.get(protect,authorizeMultiple('admin','secretary','client'),getAnnouncement)
 .put(protect,authorizeMultiple('admin','secretary'),imageVal,updateAnnouncement)
 .delete(protect,authorizeMultiple('admin','secretary'),deleteAnnouncement);
 
 router
 .route('/announcements/user/:userId')
 .post(protect,authorizeMultiple('admin','secretary'),imageVal,validateAnnouncementCreation,createAnnouncementForUser)
-.get(protect,authorizeMultiple('admin','secretary'),getAnnouncementsForUser)
+.get(protect,authorizeMultiple('admin','secretary','client'),getAnnouncementsForUser)
 
 
 router
