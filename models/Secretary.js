@@ -94,14 +94,12 @@ SecretarySchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Sign JWT and return
 SecretarySchema.methods.getSignedJwtToken = function () {
     return jwt.sign({ id: this._id , role:this.role}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
 };
 
-// Match user entered password to hashed password in database
 SecretarySchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };

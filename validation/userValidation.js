@@ -35,16 +35,19 @@ const governmentCities = [
 const roleValues = ['client', 'staff'];
 
 const userRegisterationValidation = [
+
   body('firstName')
     .notEmpty()
     .withMessage('First name is required')
     .isLength({ min: 3, max: 10 })
     .withMessage('First name must be between 3 and 10 characters long'),
+
   body('lastName')
     .notEmpty()
     .withMessage('Last name is required')
     .isLength({ min: 3, max: 10 })
     .withMessage('Last name must be between 3 and 10 characters long'),
+
   body('username')
     .notEmpty()
     .withMessage('user name is required')
@@ -57,6 +60,7 @@ const userRegisterationValidation = [
       }
       return true;
     }),
+
   body('email')
     .notEmpty()
     .withMessage('email is required')
@@ -71,6 +75,7 @@ const userRegisterationValidation = [
     })
     .matches(/^[\w.+-]+@(gmail|yahoo|hotmail|icloud|outlook)\.com$/)
     .withMessage('Please add a valid email with @gmail, @yahoo,@icloud ,@outlook , or @hotmail domain'),
+
   body('password')
     .notEmpty()
     .withMessage('Password is required')
@@ -78,6 +83,7 @@ const userRegisterationValidation = [
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+
   body('phoneNumber')
     .notEmpty()
     .withMessage('Phonenumber is required')
@@ -92,24 +98,29 @@ const userRegisterationValidation = [
       }
       return true;
     }),
+
   body('dob')
     .notEmpty()
     .withMessage('dob is required')
     .matches(/^\d{4}-\d{2}-\d{2}$/)
     .withMessage('DOB must be in the format of yyyy-mm-dd'),
+
   body('city')
     .notEmpty()
     .withMessage('city is required')
     .isIn(governmentCities)
     .withMessage('Please enter a valid government city'),
+
   body('interests')
     .notEmpty()
     .withMessage('interests is required')
     .isIn(['parkour', 'skate', 'both'])
     .withMessage('Please add your interests'),
+
 ];
 
 const userLoginValidation = [
+
   body('email')
     .notEmpty()
     .withMessage('email is required')
@@ -117,6 +128,7 @@ const userLoginValidation = [
     .withMessage('Please add a valid email')
     .matches(/^[\w.+-]+@(gmail|yahoo|hotmail|icloud|outlook)\.com$/)
     .withMessage('Please add a valid email with @gmail, @yahoo,@icloud ,@outlook , or @hotmail domain'),
+
   body('password')
     .notEmpty()
     .withMessage('Password is required')
@@ -124,9 +136,11 @@ const userLoginValidation = [
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+
 ];
 
 const userResetPasswordValidation = [
+
   body('password')
     .notEmpty()
     .withMessage('Password is required')
@@ -134,6 +148,7 @@ const userResetPasswordValidation = [
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+    
 ];
 
 

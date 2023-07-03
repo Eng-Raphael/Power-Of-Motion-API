@@ -1,8 +1,8 @@
 const { body } = require('express-validator');
 const Admin = require('../models/Admin');
 
-// Middleware for validating admin registration
 exports.validateAdminRegistration = [
+
     body('name')
     .isLength({  max: 12 })
     .withMessage('name must be max 12 characters long')
@@ -55,10 +55,11 @@ exports.validateAdminRegistration = [
     body('role')
     .isIn(['admin'])
     .withMessage('Invalid role'),
+
 ];
 
-// Middleware for validating admin login
 exports.validateAdminLogin = [
+
     body('email')
     .notEmpty()
     .withMessage('email is required')
@@ -74,9 +75,11 @@ exports.validateAdminLogin = [
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+
 ];
 
 exports.adminResetPasswordValidation = [
+
     body('password')
     .notEmpty()
     .withMessage('Password is required')
@@ -84,4 +87,5 @@ exports.adminResetPasswordValidation = [
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[@_#$&])[A-Za-z\d@$!%*#?&^_-]{8,}$/)
     .withMessage('Password must contain at least one of the following characters: @, _, #, $, or &'),
+    
 ];

@@ -4,7 +4,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
 const Secretary = require('../models/Secretary');
-// Protect routes
+
 exports.protect = asyncHandler(async (req, res, next) => {
   
   let token;
@@ -13,31 +13,28 @@ exports.protect = asyncHandler(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  // Make sure token exists
   if (!token) {
     return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 
   try {
-    // Verify token
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Check user's role
+    
     if (decoded.role === 'admin') {
-      // Get admin by ID
+      
       const admin = await Admin.findById(decoded.id);
 
-      // Make sure admin exists
       if (!admin) {
         return next(new ErrorResponse('Not authorized to access this route', 401));
       }
 
       req.admin = admin;
     }else if(decoded.role === 'secretary'){
-      // Get secretary by ID
+      
       const secretary = await Secretary.findById(decoded.id);
 
-      // Make sure secretary exists
       if (!secretary) {
         return next(new ErrorResponse('Not authorized to access this route', 401));
       }
@@ -45,10 +42,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
       req.secretary = secretary;
 
     } else {
-      // Get user by ID
+      
       const user = await User.findById(decoded.id);
 
-      // Make sure user exists
       if (!user) {
         return next(new ErrorResponse('Not authorized to access this route', 401));
       }
@@ -62,7 +58,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Grant access to specific roles
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     let user;
