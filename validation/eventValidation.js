@@ -118,7 +118,13 @@ exports.validateEventCreation =[
     .withMessage('am or pm is required.')
     .isIn(['am', 'pm'])
     .withMessage('am or pm must be either "am" or "pm".'),
-    
+
+  body('price')
+    .notEmpty()
+    .withMessage('Price is required.')
+    .isInt({ min: 0 , max: 1000000})
+    .withMessage('Price must be between 0 and 1000000.'),
+
 ];
 
 // exports.validateEventUpdate =[
