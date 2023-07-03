@@ -40,13 +40,25 @@ const userRegisterationValidation = [
     .notEmpty()
     .withMessage('First name is required')
     .isLength({ min: 3, max: 10 })
-    .withMessage('First name must be between 3 and 10 characters long'),
+    .withMessage('First name must be between 3 and 10 characters long')
+    .custom(value => {
+      if (value.trim() !== value) {
+        throw new Error('First name cannot contain spaces');
+      }
+      return true;
+    }),
 
   body('lastName')
     .notEmpty()
     .withMessage('Last name is required')
     .isLength({ min: 3, max: 10 })
-    .withMessage('Last name must be between 3 and 10 characters long'),
+    .withMessage('Last name must be between 3 and 10 characters long')
+    .custom(value => {
+      if (value.trim() !== value) {
+        throw new Error('last name cannot contain spaces');
+      }
+      return true;
+    }),
 
   body('username')
     .notEmpty()
@@ -57,6 +69,12 @@ const userRegisterationValidation = [
       const existingUser = await User.findOne({ username: value });
       if (existingUser) {
         throw new Error('Username already exists');
+      }
+      return true;
+    })
+    .custom(value => {
+      if (value.trim() !== value) {
+        throw new Error('username cannot contain spaces');
       }
       return true;
     }),
