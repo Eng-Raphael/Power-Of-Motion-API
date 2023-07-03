@@ -3,7 +3,6 @@ const path = require('path');
 const { validationResult } = require('express-validator');
 const ErrorResponse = require('../utils/errorResponse');
 
-// Create a storage object with destination and filename options
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/announcements/images');
@@ -15,7 +14,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// Check if the uploaded file is an image
 const fileFilter = function (req, file, cb) {
   const allowedExtensions = /\.(png|jfif|jpg|jpeg|pdf|svg|heif|hevc)$/;
   const extname = path.extname(file.originalname);
@@ -28,7 +26,6 @@ const fileFilter = function (req, file, cb) {
   }
 };
 
-// Create the multer middleware object with the storage and fileFilter options
 const upload = multer({
   storage: storage,
   limits: {
@@ -37,24 +34,19 @@ const upload = multer({
   fileFilter: fileFilter
 }).single('image');
 
-// Middleware function to handle the file upload
 const uploadImage = function (req, res, next) {
-    // Use the express-validator middleware to validate the fields
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new ErrorResponse(errors.array()[0].msg, 400));
     }
   
-    // Use multer to handle the file upload
     upload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading.
         next(new ErrorResponse('File size too large', 400));
       } else if (err) {
-        // An unknown error occurred when uploading.
         next(new ErrorResponse(err.message, 400));
       } else {
-        // Everything went fine.
         next();
       }
     });

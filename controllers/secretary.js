@@ -49,10 +49,8 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    // Check for user
     const secretary = await Secretary.findOne({ email }).select('+password');
 
-    // Check if password matches
     const isMatch = await secretary.matchPassword(password);
 
     if (!isMatch) {
@@ -80,15 +78,17 @@ exports.getSecretary = asyncHandler(async (req, res, next) => {
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
+
     res.cookie('token_secretary', 'none', {
       expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true, // to prevent cros site scripting 
+      httpOnly: true, 
     });
   
     res.status(200).json({
       success: true,
       message: 'Secretary logged out',
     });
+
 });
 
 exports.updateDetails= asyncHandler(async (req, res, next) => {
@@ -163,7 +163,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
 const sendTokenResponse = (secretary , statusCode , res) =>{
 
-    //create token
     const token = secretary.getSignedJwtToken();
 
     const options = {
@@ -171,7 +170,6 @@ const sendTokenResponse = (secretary , statusCode , res) =>{
         httpOnly: true
     }
 
-    // to make sure it is sent over HTTPS 
     if(process.env.NODE_ENV === 'production'){
         options.secure = true
     }
