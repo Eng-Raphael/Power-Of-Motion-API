@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 const validateEmail = async (email) => {
     const response = await fetch(
       `https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.abstract_api_email}&email=${email}`
