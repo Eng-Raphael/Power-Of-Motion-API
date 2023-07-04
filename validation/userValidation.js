@@ -145,7 +145,14 @@ const userLoginValidation = [
     .isEmail()
     .withMessage('Please add a valid email')
     .matches(/^[\w.+-]+@(gmail|yahoo|hotmail|icloud|outlook)\.com$/)
-    .withMessage('Please add a valid email with @gmail, @yahoo,@icloud ,@outlook , or @hotmail domain'),
+    .withMessage('Please add a valid email with @gmail, @yahoo,@icloud ,@outlook , or @hotmail domain')
+    .custom(async (value, { req }) => {
+      const user = await User.findOne({ email: value });
+      if (!user) {
+        throw new Error('Email does not exist');
+      }
+      return true;
+    }),
 
   body('password')
     .notEmpty()
