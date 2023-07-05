@@ -21,6 +21,8 @@ const adminuser = require('./routes/adminuser')
 const secretary = require('./routes/secretary')
 const event = require('./routes/event')
 const eventstaff = require('./routes/eventstaff')
+const ticket = require('./routes/ticket')
+const payment = require('./routes/payment')
 //end route files 
 
 //load env
@@ -91,6 +93,8 @@ app.use('/pom/administration',adminuser)
 app.use('/pom/secretary/auth',secretary)
 app.use('/pom/Event',event)
 app.use('/pom/EventStaff',eventstaff)
+app.use('/pom/Ticket',ticket)
+app.use('/pom/TicketPayment',payment)
 //end mount routes
 
 app.use(errorHandler)

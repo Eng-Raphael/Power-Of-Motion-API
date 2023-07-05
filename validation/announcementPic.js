@@ -5,7 +5,7 @@ const ErrorResponse = require('../utils/errorResponse');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/user/profiles');
+    cb(null, './uploads/announcements/images');
   },
   filename: function (req, file, cb) {
     const extension = path.extname(file.originalname);
@@ -29,17 +29,18 @@ const fileFilter = function (req, file, cb) {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024 
+    fileSize: 5 * 1024 * 1024 // 5MB limit
   },
   fileFilter: fileFilter
-}).single('profilePic');
+}).single('image');
 
-const uploadProfilePic = function (req, res, next) {
-    
+const uploadImage = function (req, res, next) {
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new ErrorResponse(errors.array()[0].msg, 400));
     }
+  
     upload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         next(new ErrorResponse('File size too large', 400));
@@ -51,4 +52,4 @@ const uploadProfilePic = function (req, res, next) {
     });
   };
 
-module.exports = uploadProfilePic;
+module.exports = uploadImage;

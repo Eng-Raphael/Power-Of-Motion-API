@@ -18,10 +18,12 @@ const {
 const adminSecretaryRouter = require('./adminsecretary');
 const adminLocationRouter = require('./location');
 const adminCompanyInformationRouter = require('./companyinformation');
+const adminAnnouncementRouter = require('./announcement');
 
 router.use('', adminSecretaryRouter);
 router.use('', adminLocationRouter);
 router.use('', adminCompanyInformationRouter);
+router.use('', adminAnnouncementRouter);
 
 router
 .get('/users',protect,authorize('admin'), advancedResults(User) ,getUsers)

@@ -57,11 +57,8 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     const { email, password } = req.body;
 
-
-    // Check for user
     const user = await User.findOne({ email }).select('+password');
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
@@ -74,7 +71,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.getMe = asyncHandler(async (req, res, next) => {
-    // user is already available in req due to the protect middleware
+    
     const user = await User.findById(req.user.id)
   
     res.status(200).json({
@@ -84,9 +81,10 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
+
     res.cookie('token', 'none', {
       expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true, // to prevent cros site scripting 
+      httpOnly: true, 
     });
   
     res.status(200).json({
@@ -96,6 +94,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateDetails = asyncHandler(async (req, res, next) => {
+
     const fieldsToUpdate = req.body;
     const userID = req.user.id;
   
@@ -129,10 +128,8 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
     });
 });
 
-// Get token from model , create cookie and send response 
 const sendTokenResponse = (user , statusCode , res) =>{
 
-    //create token
     const token = user.getSignedJwtToken();
 
     const options = {
@@ -140,7 +137,6 @@ const sendTokenResponse = (user , statusCode , res) =>{
         httpOnly: true
     }
 
-    // to make sure it is sent over HTTPS 
     if(process.env.NODE_ENV === 'production'){
         options.secure = true
     }

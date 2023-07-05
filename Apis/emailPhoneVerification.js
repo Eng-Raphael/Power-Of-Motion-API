@@ -1,8 +1,60 @@
+// const fetch = require('node-fetch');
+
+// const validateEmail = async (email) => {
+//     const response = await fetch(
+//       `https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.abstract_api_email}&email=${email}`
+//     );
+//     const data = await response.json();
+  
+//     const isValidFormat = data.is_valid_format.value;
+//     const isFreeEmail = data.is_free_email.value;
+//     const isDisposableEmail = data.is_disposable_email.value;
+//     const isRoleEmail = data.is_role_email.value;
+//     const isCatchallEmail = data.is_catchall_email.value;
+//     const isMXFound = data.is_mx_found.value;
+//     const isSMTPValid = data.is_smtp_valid.value;
+  
+//     return (
+//       isValidFormat &&
+//       isFreeEmail &&
+//       !isDisposableEmail &&
+//       !isRoleEmail &&
+//       !isCatchallEmail &&
+//       isMXFound &&
+//       isSMTPValid
+//     );
+// };
+const axios = require('axios');
+
 const validateEmail = async (email) => {
-    const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.abstract_api_email}&email=${email}`);
-    const data = await response.json();
-    return data.is_valid_format.value && data.is_free_email.value && !data.is_disposable_email.value;
-}
+  try {
+    const response = await axios.get(
+      `https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.abstract_api_email}&email=${email}`
+    );
+    const data = response.data;
+  
+    const isValidFormat = data.is_valid_format.value;
+    const isFreeEmail = data.is_free_email.value;
+    const isDisposableEmail = data.is_disposable_email.value;
+    const isRoleEmail = data.is_role_email.value;
+    const isCatchallEmail = data.is_catchall_email.value;
+    const isMXFound = data.is_mx_found.value;
+    const isSMTPValid = data.is_smtp_valid.value;
+  
+    return (
+      isValidFormat &&
+      isFreeEmail &&
+      !isDisposableEmail &&
+      !isRoleEmail &&
+      !isCatchallEmail &&
+      isMXFound &&
+      isSMTPValid
+    );
+  } catch (error) {
+    console.error('Error validating email:', error);
+    return false;
+  }
+};
 
 const validatePhoneNumber = async (phoneNumber) => {
     phoneNumber = encodeURIComponent('+2' + phoneNumber);

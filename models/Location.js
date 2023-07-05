@@ -20,6 +20,6 @@ const LocationSchema = new mongoose.Schema({
         type:Number,
         required: [true,'Please add a longitude'],
     } ,
-}); 
+},{timestamps:true}); 
 
 module.exports = mongoose.model('Location', LocationSchema);
